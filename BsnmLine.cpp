@@ -1,40 +1,40 @@
-import matplotlib.pyplot as plt
+#include <iostream>
+#include <graphics.h>
 
-def draw_line(x0, y0, x1, y1):
-    dx = abs(x1 - x0)
-    dy = abs(y1 - y0)
-    sx = 1 if x0 < x1 else -1
-    sy = 1 if y0 < y1 else -1
-    err = dx - dy
+void draw_line(int x0, int y0, int x1, int y1) {
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+    int err = dx - dy;
 
-    points = []
-    while True:
-        points.append((x0, y0))
+    while (true) {
+        putpixel(x0, y0, WHITE);
 
-        if x0 == x1 and y0 == y1:
-            break
-        e2 = 2 * err
-        if e2 > -dy:
-            err -= dy
-            x0 += sx
-        if e2 < dx:
-            err += dx
-            y0 += sy
+        if (x0 == x1 && y0 == y1)
+            break;
 
-    return points
+        int e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x0 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
 
-def plot_line(x0, y0, x1, y1):
-    points = draw_line(x0, y0, x1, y1)
-    x_values = [point[0] for point in points]
-    y_values = [point[1] for point in points]
-    plt.plot(x_values, y_values, marker='o')
-    plt.xlabel('X-axis')
-    plt.ylabel('Y-axis')
-    plt.title('Bresenham Line Drawing Algorithm')
-    plt.grid()
-    plt.show()
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "C:\\Turboc3\\BGI");
 
-# Example usage
-x0, y0 = 1, 1
-x1, y1 = 8, 5
-plot_line(x0, y0, x1, y1)
+    int x0 = 100, y0 = 100;  // Starting point coordinates
+    int x1 = 300, y1 = 200;  // Ending point coordinates
+    draw_line(x0, y0, x1, y1);  // Draw line from (x0, y0) to (x1, y1)
+
+    getch();
+    closegraph();
+    return 0;
+}
